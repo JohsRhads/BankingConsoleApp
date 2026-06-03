@@ -13,7 +13,7 @@ namespace BankingConsoleApp
         private string type;
         private double balance;
         private static int nextcounNumber = 1001;
-        public string AccountNumber;
+        public string AccountNumber { get; set; }
 
         public DateTime DateCreated {  get; set; }
         public string Name
