@@ -8,9 +8,16 @@ namespace BankingConsoleApp
     {
         private BankManager bankManager;
 
+        // Default constructor
         public ShowMenu()
         {
             bankManager = new BankManager();
+        }
+
+        // Constructor that accepts BankManager
+        public ShowMenu(BankManager manager)
+        {
+            bankManager = manager;
         }
 
         public void Run()
@@ -75,12 +82,51 @@ namespace BankingConsoleApp
 
         private void CreateAccount()
         {
-            Console.Write("Enter account holder name: ");
-            string name = Console.ReadLine();
-            Console.Write("Enter account type (Savings/Checking): ");
-            string type = Console.ReadLine();
-            Console.Write("Enter initial deposit: ");
-            double initialDeposit = Convert.ToDouble(Console.ReadLine());
+            // Validate name
+            string name;
+            do
+            {
+                Console.Write("Enter account holder name: ");
+                name = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("Name cannot be empty. Please try again.");
+                }
+            } while (string.IsNullOrWhiteSpace(name));
+
+            // Validate type
+            string type;
+            do
+            {
+                Console.Write("Enter account type (Savings/Checking): ");
+                type = Console.ReadLine();
+
+                if (!type.Equals("Savings", StringComparison.OrdinalIgnoreCase) &&
+                    !type.Equals("Checking", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine("Invalid account type. Must be 'Savings' or 'Checking'. Please try again.");
+                }
+            } while (!type.Equals("Savings", StringComparison.OrdinalIgnoreCase) &&
+                     !type.Equals("Checking", StringComparison.OrdinalIgnoreCase));
+
+            // Validate initial deposit with TryParse
+            double initialDeposit;
+            bool validDeposit = false;
+            do
+            {
+                Console.Write("Enter initial deposit: ");
+                string input = Console.ReadLine();
+
+                if (double.TryParse(input, out initialDeposit) && initialDeposit > 0)
+                {
+                    validDeposit = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount. Please enter a valid positive number.");
+                }
+            } while (!validDeposit);
 
             bankManager.CreateAccount(name, type, initialDeposit);
         }
@@ -96,8 +142,23 @@ namespace BankingConsoleApp
         {
             Console.Write("Enter account number: ");
             string accountNumber = Console.ReadLine();
-            Console.Write("Enter deposit amount: ");
-            double amount = Convert.ToDouble(Console.ReadLine());
+
+            double amount;
+            bool validAmount = false;
+            do
+            {
+                Console.Write("Enter deposit amount: ");
+                string input = Console.ReadLine();
+
+                if (double.TryParse(input, out amount) && amount > 0)
+                {
+                    validAmount = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount. Please enter a valid positive number.");
+                }
+            } while (!validAmount);
 
             bankManager.Deposit(accountNumber, amount);
         }
@@ -106,8 +167,23 @@ namespace BankingConsoleApp
         {
             Console.Write("Enter account number: ");
             string accountNumber = Console.ReadLine();
-            Console.Write("Enter withdrawal amount: ");
-            double amount = Convert.ToDouble(Console.ReadLine());
+
+            double amount;
+            bool validAmount = false;
+            do
+            {
+                Console.Write("Enter withdrawal amount: ");
+                string input = Console.ReadLine();
+
+                if (double.TryParse(input, out amount) && amount > 0)
+                {
+                    validAmount = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount. Please enter a valid positive number.");
+                }
+            } while (!validAmount);
 
             bankManager.Withdraw(accountNumber, amount);
         }
@@ -118,8 +194,23 @@ namespace BankingConsoleApp
             string fromAccount = Console.ReadLine();
             Console.Write("Enter receiver account number: ");
             string toAccount = Console.ReadLine();
-            Console.Write("Enter transfer amount: ");
-            double amount = Convert.ToDouble(Console.ReadLine());
+
+            double amount;
+            bool validAmount = false;
+            do
+            {
+                Console.Write("Enter transfer amount: ");
+                string input = Console.ReadLine();
+
+                if (double.TryParse(input, out amount) && amount > 0)
+                {
+                    validAmount = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount. Please enter a valid positive number.");
+                }
+            } while (!validAmount);
 
             bankManager.Transfer(fromAccount, toAccount, amount);
         }
