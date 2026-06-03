@@ -5,6 +5,7 @@ using System.Xml.Linq;
 
 namespace BankingConsoleApp
 {
+
     public class Account
     {
 
@@ -57,7 +58,8 @@ namespace BankingConsoleApp
                     Console.WriteLine("Balance cannot go below 0.");
             }
         }
-        
+        // Parameterless constructor for JSON
+        public Account() { }
         public  Account(string name, string type, double initialDeposit)
         {   
             Name = name;
